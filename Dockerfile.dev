@@ -7,6 +7,6 @@ RUN npm install
 
 ENV TCP_PORT 5000
 ENV UDP_PORT 6000
-ENV DEBUG backend-location-tracker:*
+ENV DEBUG backend-location-tracker:*,location-tracker
 
 CMD ["./node_modules/nodemon/bin/nodemon.js", "./lib/backend/index.js"]
