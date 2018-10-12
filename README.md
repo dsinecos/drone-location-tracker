@@ -12,4 +12,16 @@
    - Open another terminal
    - Use `docker ps` to get the <container-id> insie which you want to start a shell process
    - `docker exec -it <container-id> sh`
+
+### To test whether location data is received on the UDP server
+
+1. Run container using the command in the earlier section
+
+2. Open a browser and go to `localhost:5000` to access the Dashboard
+
+2. Open another terminal (To send a dummy location message to the UDP server)
+   - `docker exec -it <container-id> sh` (Run a shell process inside the container)
+   - `cd tests/drone-simulator`
+   - `node sendLocationRequestToBackend.js`
+
    
