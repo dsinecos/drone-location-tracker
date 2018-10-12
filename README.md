@@ -3,7 +3,7 @@
 ### For Development Environment
 
 1. Build Image
-   `docker build -f Dockerfile.env`
+   `docker build -f Dockerfile.dev`
 
 2. Run container
    `docker run -it -p 5000:5000 -p 6000:6000/udp -v /usr/app/node_modules -v $(pwd):/usr/app <image-id>`
