@@ -1,4 +1,4 @@
-module.exports = function () {
+module.exports = function (onlineProbability = 0.5) {
     const rand = Math.random();
-    return Promise.resolve(rand > 0.8);
+    return Promise.resolve(rand < onlineProbability);
 };
