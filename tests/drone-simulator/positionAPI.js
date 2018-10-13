@@ -41,5 +41,3 @@ module.exports = {
     getPosition,
     watchPosition
 };
-
-watchPosition(console.log);
