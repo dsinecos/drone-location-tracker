@@ -15,11 +15,12 @@ function getPosition(lastPosition) {
     });
 }
 
+let latitude = null;
+let longitude = null;
+let timestamp = null;
+
 function watchPosition(fn) {
     const randomInterval = ((Math.random() * 3) + 1) * 1000; // In seconds
-    let latitude = null;
-    let longitude = null;
-    let timestamp = null;
 
     setTimeout(() => {
         latitude = (latitude) ? Number(latitude) + 0.00001 : faker.address.latitude();
@@ -40,3 +41,5 @@ module.exports = {
     getPosition,
     watchPosition
 };
+
+watchPosition(console.log);
