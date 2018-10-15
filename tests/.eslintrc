@@ -1,5 +1,8 @@
 {
     "rules": {
-        "import/no-extraneous-dependencies": ["off"]
+        "import/no-extraneous-dependencies": ["off"],
+        "prefer-arrow-callback": ["off"],
+        "no-undef": ["off"],
+        "no-unused-expressions": ["off"]
     }
 }
