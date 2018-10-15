@@ -6,10 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<!-- <script src="/socket.io/socket.io.js"></script> -->
+<!-- <script src="https://code.jquery.com/jquery-1.11.1.js"></script> -->
+
+<body>
+    <div id="droneTable">
+        <div v-if="loaded">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Drone-ID</th>
+                        <th>Speed</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(attribute, id) in droneSpeedData" v-bind:style="{backgroundColor: (attribute.flag) ? 'red' : 'blue' }">
+                        <td>{{id}}</td>
+                        <td>{{attribute.speed}}</td>
+                        <td>{{attribute.timestamp}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div v-else>
+            <h3>Fetching Drone data from server</h3>
+        </div>>
+    </div>
+
+
+</body>
+
+<style>
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+</style>
 
 <script>
     var socket = io();
@@ -18,11 +58,25 @@
         var message = JSON.stringify(msg);
         console.log(msg);
         $('#messages').append($('<li>').text(msg));
+
+    var droneTable = new Vue({
+        el: '#droneTable',
+        beforeCreate: function () {
+            axios.get('/speed/')
+                .then((response) => {
+                    this.droneSpeedData = response.data;
+                    this.loaded = true;
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+
+        },
+        data: {
+            loaded: false,
+            droneSpeedData: {}
+        }
     });
 </script>
-
-<body>
-    <ul id="messages"></ul>
-</body>
 
 </html>
