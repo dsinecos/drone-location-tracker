@@ -2,11 +2,12 @@ const chai = require('chai');
 const sinon = require('sinon');
 const PositionMemoryStore = require('../lib/backend/MemoryStore');
 const faker = require('faker');
+const geolib = require('geolib');
 
 const expect = chai.expect;
 
-describe.only('MemoryStore', function () {
-    describe('Location store', function () {
+describe('MemoryStore', function () {
+    describe('\n Location store', function () {
         describe('setPositionFromDroneMessage', function () {
             beforeEach(function () {
                 PositionMemoryStore.positionData = {};
@@ -30,7 +31,7 @@ describe.only('MemoryStore', function () {
                 };
 
                 const result = PositionMemoryStore.setPositionFromDroneMessage(droneMessage);
-                
+
                 expect(spyParsePosition.calledOnce).to.be.true;
                 expect(spyParsePosition.calledOnceWith(droneMessage)).to.be.true;
                 expect(spySetPositionById.calledOnceWith(droneId, {
@@ -249,54 +250,216 @@ describe.only('MemoryStore', function () {
         });
     });
 
-    describe.skip('Speed store', function () {
+    describe('\n Speed store', function () {
         describe('calculateSpeed', function () {
-            it('Returns null if there is no prior position data', function () {
+            const startTime = (new Date()).getTime();
+            const latitude1 = `${faker.address.latitude()}`;
+            const longitude1 = `${faker.address.longitude()}`;
+            const timestamp1 = `${startTime}`;
 
+            const latitude2 = `${faker.address.latitude()}`;
+            const longitude2 = `${faker.address.longitude()}`;
+            const endTime = startTime + 3000;
+            const timestamp2 = `${endTime}`;
+
+            beforeEach(function () {
+                PositionMemoryStore.positionData = {
+                    '1': [
+                        {
+                            latitude: latitude1,
+                            longitude: longitude1,
+                            timestamp: timestamp1
+                        },
+                        {
+                            latitude: latitude2,
+                            longitude: longitude2,
+                            timestamp: timestamp2
+                        }
+                    ],
+                    '2': [
+                        {
+                            latitude: latitude1,
+                            longitude: longitude1,
+                            timestamp: timestamp1
+                        }
+                    ]
+                };
+            });
+
+            afterEach(function () {
+                PositionMemoryStore.positionData = {};
+            });
+
+            it('Returns null if there is no prior position data', function () {
+                const result = PositionMemoryStore.calculateSpeed('2');
+
+                expect(result).to.be.null;
+            });
+
+            it('Returns null if there drone-id not found in store', function () {
+                const result = PositionMemoryStore.calculateSpeed('3');
+
+                expect(result).to.be.null;
             });
 
             it('Returns current speed if prior location data available', function () {
+                const result = PositionMemoryStore.calculateSpeed('1');
 
+                const distance = geolib.getDistance(
+                    { latitude: latitude1, longitude: longitude1 },
+                    { latitude: latitude2, longitude: longitude2 }
+                );
+                const duration = (timestamp2 - timestamp1) / 1000;
+
+                const speed = distance / duration;
+
+                expect(result).to.deep.equal({
+                    id: '1',
+                    speed: `${speed}`,
+                    timestamp: `${timestamp2}`
+                });
             });
         });
 
         describe('setSpeedById', function () {
-            it('Adds a new drone id to store speed data if drone id does not exist', function () {
+            beforeEach(function () {
+                PositionMemoryStore.speedData = {
+                    '1': {
+                        speed: '12',
+                        timestamp: `${(new Date()).getTime()}`
+                    }
+                };
+            });
 
+            afterEach(function () {
+                PositionMemoryStore.speedData = {};
+            });
+
+            it('Adds a new drone id to store speed data if drone id does not exist', function () {
+                const droneId = '2';
+                const speed = {
+                    speed: '24',
+                    timestamp: `${(new Date()).getTime()}`
+                };
+
+                PositionMemoryStore.setSpeedById(droneId, speed);
+
+                expect(PositionMemoryStore.speedData[droneId]).to.deep.equal(speed);
             });
 
             it('Sets speed data against existing drone id if drone id exists', function () {
+                const droneId = '1';
+                const speed = {
+                    speed: '24',
+                    timestamp: `${(new Date()).getTime()}`
+                };
 
+                PositionMemoryStore.setSpeedById(droneId, speed);
+
+                expect(PositionMemoryStore.speedData[droneId]).to.deep.equal(speed);
             });
 
             it('Emits `drone-updated` event with respective drone-id', function () {
+                const droneId = '1';
+                const speed = {
+                    speed: '24',
+                    timestamp: `${(new Date()).getTime()}`
+                };
 
+                const eventSpy = sinon.spy();
+                PositionMemoryStore.on('drone-updated', eventSpy);
+
+                PositionMemoryStore.setSpeedById(droneId, speed);
+
+                expect(eventSpy.calledOnceWith('1')).to.be.true;
             });
         });
 
         describe('getSpeedById', function () {
-            it('Returns speed data if drone id found in store', function () {
+            const timestamp = `${(new Date()).getTime()}`;
 
+            beforeEach(function () {
+                PositionMemoryStore.speedData = {
+                    '1': {
+                        speed: '12',
+                        timestamp
+                    }
+                };
+            });
+
+            afterEach(function () {
+                PositionMemoryStore.speedData = {};
+            });
+
+            it('Returns speed data if drone id found in store', function () {
+                const droneId = '1';
+                const result = PositionMemoryStore.getSpeedById(droneId);
+
+                expect(result).to.deep.equal({
+                    speed: '12',
+                    timestamp
+                });
             });
 
             it('Returns null if drone id not found in store', function () {
+                const droneId = '2';
+                const result = PositionMemoryStore.getSpeedById(droneId);
 
+                expect(result).to.be.null;
             });
         });
 
         describe('getSpeed', function () {
-            it('Returns location data for all drones', function () {
+            beforeEach(function () {
+                PositionMemoryStore.speedData = {};
+            });
 
+            it('Returns location data for all drones', function () {
+                const timestamp = `${(new Date()).getTime()}`;
+
+                PositionMemoryStore.speedData = {
+                    '1': {
+                        speed: '12',
+                        timestamp
+                    },
+                    '2': {
+                        speed: '24',
+                        timestamp
+                    }
+                };
+
+                const result = PositionMemoryStore.getSpeed();
+                expect(result).to.deep.equal({
+                    '1': {
+                        speed: '12',
+                        timestamp
+                    },
+                    '2': {
+                        speed: '24',
+                        timestamp
+                    }
+                });
             });
 
             it('Returns null if store is empty', function () {
-
+                const result = PositionMemoryStore.getSpeed();
+                expect(result).to.be.null;
             });
         });
 
-        describe('updateSpeedForInactiveDrones', function () {
+        describe.skip('updateSpeedForInactiveDrones', function () {
             it('Runs every 10 seconds', function () {
+                const clock = sinon.useFakeTimers();
+                const updateInactiveDronesSpy = sinon.spy(PositionMemoryStore, 'updateInactiveDrones');
 
+                clock.tick(10001);
+                // console.log(updateInactiveDronesSpy);
+
+
+                expect(updateInactiveDronesSpy.called).to.be.true;
+
+                clock.restore();
+                updateInactiveDronesSpy.restore();
             });
 
             it('Sets speed to null if last location update is more than 10 seconds old', function () {
@@ -327,24 +490,99 @@ describe.only('MemoryStore', function () {
         });
     });
 
-    describe.skip('Fetch data for Dashboard', function () {
+    describe('Fetch data for Dashboard', function () {
         describe('getDataForDashboard', function () {
-            it('Return data (Speed and Flag) for all drones', function () {
+            beforeEach(function () {
+                PositionMemoryStore.speedData = {};
+            });
 
+            afterEach(function () {
+                PositionMemoryStore.speedData = {};
+                PositionMemoryStore.flagDrone = {};
+            });
+
+            it('Return data (Speed and Flag) for all drones', function () {
+                const timestamp = `${(new Date()).getTime()}`;
+
+                PositionMemoryStore.speedData = {
+                    '1': {
+                        speed: '12',
+                        timestamp
+                    },
+                    '2': {
+                        speed: '24',
+                        timestamp
+                    }
+                };
+
+                PositionMemoryStore.flagDrone = {
+                    '1': true,
+                    '2': false
+                };
+
+                const result = PositionMemoryStore.getDataForDashboard();
+                expect(result).to.deep.equal({
+                    '1': {
+                        speed: '12',
+                        timestamp,
+                        flag: true
+                    },
+                    '2': {
+                        speed: '24',
+                        timestamp,
+                        flag: false
+                    }
+                });
             });
 
             it('Return null if store is empty', function () {
-
+                const result = PositionMemoryStore.getDataForDashboard();
+                expect(result).to.be.null;
             });
         });
 
         describe('getDataForDashboardById', function () {
-            it('Return data (Speed and Flag) for the respective drone-id', function () {
+            const timestamp = `${(new Date()).getTime()}`;
 
+            beforeEach(function () {
+                PositionMemoryStore.speedData = {
+                    '1': {
+                        speed: '12',
+                        timestamp
+                    },
+                    '2': {
+                        speed: 24,
+                        timestamp
+                    }
+                };
+
+                PositionMemoryStore.flagDrone = {
+                    '1': false,
+                    '2': true
+                };
+            });
+
+            afterEach(function () {
+                PositionMemoryStore.speedData = {};
+                PositionMemoryStore.flagDrone = {};
+            });
+
+            it('Return data (Speed and Flag) for the respective drone-id', function () {
+                const droneId = '1';
+                const result = PositionMemoryStore.getDataForDashboardById(droneId);
+
+                expect(result).to.deep.equal({
+                    speed: '12',
+                    timestamp,
+                    flag: false
+                });
             });
 
             it('Return null if drone-id not found in store', function () {
+                const droneId = '3';
+                const result = PositionMemoryStore.getDataForDashboardById(droneId);
 
+                expect(result).to.be.null;
             });
         });
     });
