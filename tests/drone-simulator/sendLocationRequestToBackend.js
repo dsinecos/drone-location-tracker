@@ -1,6 +1,13 @@
 const dgram = require('dgram');
 
-const message = new Buffer('Lorem Ipsum is simply dummy text');
+const faker = require('faker');
+
+const droneId = '1';
+const latitude = `${faker.address.latitude()}`;
+const longitude = `${faker.address.longitude()}`;
+const timestamp = `${(new Date()).getTime()}`;
+
+const message = Buffer.from(`${droneId};${latitude},${longitude};${timestamp}`);
 
 const client = dgram.createSocket('udp4');
 const UDP_PORT = process.env.UDP_PORT;
