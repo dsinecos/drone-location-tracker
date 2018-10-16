@@ -553,7 +553,7 @@ describe('MemoryStore', function () {
         });
     });
 
-    describe.skip('Flag stationary Drones', function () {
+    describe.skip('\n Flag stationary Drones', function () {
         it('Runs every 10 seconds', function () {
 
         });
@@ -571,7 +571,7 @@ describe('MemoryStore', function () {
         });
     });
 
-    describe('Fetch data for Dashboard', function () {
+    describe('\n Fetch data for Dashboard', function () {
         describe('getDataForDashboard', function () {
             beforeEach(function () {
                 PositionMemoryStore.speedData = {};
