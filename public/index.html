@@ -11,8 +11,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
-<!-- <script src="/socket.io/socket.io.js"></script> -->
-<!-- <script src="https://code.jquery.com/jquery-1.11.1.js"></script> -->
+<script src="/socket.io/socket.io.js"></script>
 
 <body>
     <div id="droneTable">
@@ -21,12 +20,12 @@
                 <thead>
                     <tr>
                         <th>Drone-ID</th>
-                        <th>Speed</th>
+                        <th>Speed (m/s)</th>
                         <th>Timestamp</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(attribute, id) in droneSpeedData" v-bind:style="{backgroundColor: (attribute.flag) ? 'red' : 'blue' }">
+                    <tr v-for="(attribute, id) in droneSpeedData" v-bind:style="{backgroundColor: (attribute.flag) ? 'silver' : 'white' }">
                         <td>{{id}}</td>
                         <td>{{attribute.speed}}</td>
                         <td>{{attribute.timestamp}}</td>
@@ -53,18 +52,40 @@
 
 <script>
     var socket = io();
-    socket.on('location-updated', function (msg) {
-        console.log("Message received")
-        var message = JSON.stringify(msg);
-        console.log(msg);
-        $('#messages').append($('<li>').text(msg));
+    socket.on('drone-updated', function (msg) {
+        const message = JSON.parse(msg);
+        const { id, speed, timestamp, flag } = message;
+
+        const time = getTimeString(timestamp);
+        updateDroneTable(id, speed, time, flag);
+    })
+
+    function getTimeString(timestamp) {
+        const hours = (new Date(parseInt(timestamp))).getHours();
+        const mins = (new Date(parseInt(timestamp))).getMinutes();
+        const seconds = (new Date(parseInt(timestamp))).getSeconds();
+        const time = `${hours}:${mins}:${seconds}`;
+
+        return time;
+    }
+
+    function updateDroneTable(id, speed, time, flag) {
+        if (!droneTable.droneSpeedData[id]) {
+            Vue.set(droneTable.droneSpeedData, id, {});
+        }
+
+        Vue.set(droneTable.droneSpeedData[id], 'speed', Math.floor(speed));
+        Vue.set(droneTable.droneSpeedData[id], 'timestamp', time);
+        Vue.set(droneTable.droneSpeedData[id], 'flag', flag);
+    }    
 
     var droneTable = new Vue({
         el: '#droneTable',
         beforeCreate: function () {
-            axios.get('/speed/')
+            axios.get('/speeds/')
                 .then((response) => {
-                    this.droneSpeedData = response.data;
+                    this.droneSpeedData = response.data || {};
+                    console.log(response.data);
                     this.loaded = true;
                 })
                 .catch(function (error) {
