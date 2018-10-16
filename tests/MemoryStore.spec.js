@@ -13,6 +13,24 @@ describe('MemoryStore', function () {
                 PositionMemoryStore.positionData = {};
             });
 
+            it('Converts buffer to string before calling parsePosition', function () {
+                const spyParsePosition = sinon.spy(PositionMemoryStore, 'parsePosition');
+
+                const droneId = `${1}`;
+                const latitude = `${faker.address.latitude()}`;
+                const longitude = `${faker.address.longitude()}`;
+                const timestamp = `${(new Date()).getTime()}`;
+
+                const droneMessage = Buffer.from(`${droneId};${latitude},${longitude};${timestamp}`);
+                const argsForParsePosition = droneMessage.toString();
+
+                PositionMemoryStore.setPositionFromDroneMessage(droneMessage);
+
+                expect(spyParsePosition.calledOnceWithExactly(argsForParsePosition)).to.be.true;
+
+                spyParsePosition.restore();
+            });
+
             it('Stores position received from drone', function () {
                 const spyParsePosition = sinon.spy(PositionMemoryStore, 'parsePosition');
                 const spySetPositionById = sinon.spy(PositionMemoryStore, 'setPositionById');
