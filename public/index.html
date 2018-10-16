@@ -9,9 +9,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 
-<script src="/socket.io/socket.io.js"></script>
 
 <body>
     <div id="droneTable">
@@ -85,7 +85,6 @@
             axios.get('/speeds/')
                 .then((response) => {
                     this.droneSpeedData = response.data || {};
-                    console.log(response.data);
                     this.loaded = true;
                 })
                 .catch(function (error) {
