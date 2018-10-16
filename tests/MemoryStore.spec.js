@@ -491,7 +491,7 @@ describe('MemoryStore', function () {
     });
 
     describe('\n Set speed values when location is updated', function () {
-        describe.only('onLocationUpdate', function () {
+        describe('onLocationUpdate', function () {
             it('Is triggered on event `location-updated`', function () {
                 const spyOnLocationUpdate = sinon.spy(PositionMemoryStore, 'onLocationUpdate');
 
