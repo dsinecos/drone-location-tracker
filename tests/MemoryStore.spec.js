@@ -490,6 +490,69 @@ describe('MemoryStore', function () {
         });
     });
 
+    describe('\n Set speed values when location is updated', function () {
+        describe.only('onLocationUpdate', function () {
+            it('Is triggered on event `location-updated`', function () {
+                const spyOnLocationUpdate = sinon.spy(PositionMemoryStore, 'onLocationUpdate');
+
+                PositionMemoryStore.emit('location-updated', '1');
+
+                expect(spyOnLocationUpdate.calledOnceWithExactly('1')).to.be.true;
+                spyOnLocationUpdate.restore();
+            });
+
+            it('Triggers calculateSpeed with the respective droneId', function () {
+                const spyCalculateSpeed = sinon.spy(PositionMemoryStore, 'calculateSpeed');
+
+                PositionMemoryStore.emit('location-updated', '1');
+                expect(spyCalculateSpeed.calledOnceWithExactly('1')).to.be.true;
+
+                spyCalculateSpeed.restore();
+            });
+
+            it('Triggers setSpeedById with the respective droneId', function () {
+                const startTime = (new Date()).getTime();
+                const latitude1 = `${faker.address.latitude()}`;
+                const longitude1 = `${faker.address.longitude()}`;
+                const timestamp1 = `${startTime}`;
+
+                const latitude2 = `${faker.address.latitude()}`;
+                const longitude2 = `${faker.address.longitude()}`;
+                const endTime = startTime + 3000;
+                const timestamp2 = `${endTime}`;
+
+                PositionMemoryStore.positionData = {
+                    '1': [
+                        {
+                            latitude: latitude1,
+                            longitude: longitude1,
+                            timestamp: timestamp1
+                        },
+                        {
+                            latitude: latitude2,
+                            longitude: longitude2,
+                            timestamp: timestamp2
+                        }
+                    ],
+                    '2': [
+                        {
+                            latitude: latitude1,
+                            longitude: longitude1,
+                            timestamp: timestamp1
+                        }
+                    ]
+                };
+
+                const spySetSpeedById = sinon.spy(PositionMemoryStore, 'setSpeedById');
+
+                PositionMemoryStore.emit('location-updated', '1');
+                expect(spySetSpeedById.calledOnce).to.be.true;
+
+                spySetSpeedById.restore();
+            });
+        });
+    });
+
     describe.skip('Flag stationary Drones', function () {
         it('Runs every 10 seconds', function () {
 
