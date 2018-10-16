@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tests": "./node_modules/mocha/bin/mocha --watch ./tests"
+    "tests": "./node_modules/mocha/bin/mocha --watch ./tests",
+    "simulation": "FLEET_SIZE=15 node ./tests/drone-simulator/createFleet.js"
   },
   "author": "Divyanshu",
   "license": "MIT",
