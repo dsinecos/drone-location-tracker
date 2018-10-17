@@ -74,7 +74,7 @@
             Vue.set(droneTable.droneSpeedData, id, {});
         }
 
-        Vue.set(droneTable.droneSpeedData[id], 'speed', Math.floor(speed));
+        Vue.set(droneTable.droneSpeedData[id], 'speed', parseFloat(speed).toFixed(2));
         Vue.set(droneTable.droneSpeedData[id], 'timestamp', time);
         Vue.set(droneTable.droneSpeedData[id], 'flag', flag);
     }    

@@ -1,17 +1,47 @@
 const faker = require('faker');
 
-function getPosition(lastPosition) {
-    if (!lastPosition) {
+const droneLastPosition = {};
+
+function getPosition(droneId) {
+    let latitude;
+    let longitude;
+
+    if (droneLastPosition[droneId]) {
+        latitude = droneLastPosition[droneId].latitude;
+        longitude = droneLastPosition[droneId].longitude;
+
+        // 0.0000001 - 0.00001
+
+        const latitudeShift = (Math.random() * (0.00001));
+        const longitudeShift = (Math.random() * (0.00001));
+
+        const newLatitude = `${parseFloat(latitude, 10) + latitudeShift}`;
+        const newLongitude = `${parseFloat(longitude, 10) + longitudeShift}`;
+        const newTimestamp = (new Date()).getTime();
+
+        droneLastPosition[droneId].latitude = newLatitude;
+        droneLastPosition[droneId].longitude = newLongitude;
+
         return Promise.resolve({
-            latitude: faker.address.latitude(),
-            longitude: faker.address.longitude(),
-            timestamp: (new Date()).getTime()
+            latitude: newLatitude,
+            longitude: newLongitude,
+            timestamp: newTimestamp
         });
     }
+
+    latitude = faker.address.latitude();
+    longitude = faker.address.longitude();
+    const timestamp = (new Date()).getTime();
+
+    droneLastPosition[droneId] = {
+        latitude,
+        longitude
+    };
+
     return Promise.resolve({
-        latitude: lastPosition.latitude + 0.00001,
-        longitude: lastPosition.longitude + 0.00001,
-        timestamp: (new Date()).getTime()
+        latitude,
+        longitude,
+        timestamp
     });
 }
 
