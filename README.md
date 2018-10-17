@@ -25,5 +25,5 @@
 
 1. Run container using the command in the earlier section (`docker run ...`)
 
-2. `docker exec -it drone-location-tracker npm run tests`
+2. `docker exec -it drone-location-tracker npm run test`
    
