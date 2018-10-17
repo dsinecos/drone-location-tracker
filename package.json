@@ -1,12 +1,16 @@
 {
   "name": "drone-location-tracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "location tracking system for a fleet of drones",
   "main": "index.js",
   "scripts": {
-    "tests": "./node_modules/mocha/bin/mocha --watch ./tests",
+    "test": "./node_modules/mocha/bin/mocha --watch ./tests",
     "simulation": "FLEET_SIZE=15 node ./tests/drone-simulator/createFleet.js"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://gitlab.com/dsinecos/drone-location-tracker.git"
+  },  
   "author": "Divyanshu",
   "license": "MIT",
   "devDependencies": {
