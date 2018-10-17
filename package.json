@@ -8,15 +8,16 @@
     "simulation": "FLEET_SIZE=15 node ./tests/drone-simulator/createFleet.js"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://gitlab.com/dsinecos/drone-location-tracker.git"
-  },  
+    "type": "git",
+    "url": "https://gitlab.com/dsinecos/drone-location-tracker.git"
+  },
   "author": "Divyanshu",
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint-config-rallycoding": "^3.2.0",
     "faker": "^4.1.0",
+    "jsdoc": "^3.5.5",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.4",
     "sinon": "^7.0.0"
