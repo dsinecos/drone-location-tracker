@@ -7,7 +7,7 @@ const geolib = require('geolib');
 const expect = chai.expect;
 
 describe('MemoryStore', function () {
-    describe('\n Location store', function () {
+    describe('Location store', function () {
         describe('setPositionFromDroneMessage', function () {
             beforeEach(function () {
                 PositionMemoryStore.positionData = {};
@@ -268,7 +268,7 @@ describe('MemoryStore', function () {
         });
     });
 
-    describe('\n Speed store', function () {
+    describe('Speed store', function () {
         describe('calculateSpeed', function () {
             const startTime = (new Date()).getTime();
             const latitude1 = `${faker.address.latitude()}`;
@@ -466,7 +466,7 @@ describe('MemoryStore', function () {
         });
     });
 
-    describe('\n Set speed values when location is updated', function () {
+    describe('Set speed values when location is updated', function () {
         describe('onLocationUpdate', function () {
             it('Is triggered on event `location-updated`', function () {
                 const spyOnLocationUpdate = sinon.spy(PositionMemoryStore, 'onLocationUpdate');
@@ -535,7 +535,7 @@ describe('MemoryStore', function () {
         });
     });
 
-    describe('\n Flag stationary Drones', function () {
+    describe('Flag stationary Drones', function () {
         beforeEach(function () {
             const latitude = '84.9274';
             const longitude = '108.7509';
@@ -621,7 +621,7 @@ describe('MemoryStore', function () {
         });
     });
 
-    describe('\n Fetch data for Dashboard', function () {
+    describe('Fetch data for Dashboard', function () {
         describe('getDataForDashboard', function () {
             beforeEach(function () {
                 PositionMemoryStore.speedData = {};
