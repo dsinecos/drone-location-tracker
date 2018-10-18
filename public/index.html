@@ -28,7 +28,7 @@
                     <tr v-for="(attribute, id) in droneSpeedData" v-bind:style="{backgroundColor: (attribute.flag) ? 'silver' : 'white' }">
                         <td>{{id}}</td>
                         <td>{{attribute.speed}}</td>
-                        <td>{{attribute.timestamp}}</td>
+                        <td>{{getTimeString(attribute.timestamp)}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -56,8 +56,8 @@
         const message = JSON.parse(msg);
         const { id, speed, timestamp, flag } = message;
 
-        const time = getTimeString(timestamp);
-        updateDroneTable(id, speed, time, flag);
+        // const time = getTimeString(timestamp);
+        updateDroneTable(id, speed, timestamp, flag);
     })
 
     function getTimeString(timestamp) {
@@ -77,7 +77,7 @@
         Vue.set(droneTable.droneSpeedData[id], 'speed', parseFloat(speed).toFixed(2));
         Vue.set(droneTable.droneSpeedData[id], 'timestamp', time);
         Vue.set(droneTable.droneSpeedData[id], 'flag', flag);
-    }    
+    }
 
     var droneTable = new Vue({
         el: '#droneTable',
@@ -95,6 +95,16 @@
         data: {
             loaded: false,
             droneSpeedData: {}
+        },
+        methods: {
+            getTimeString: (timestamp) => {
+                const hours = (new Date(parseInt(timestamp))).getHours();
+                const mins = (new Date(parseInt(timestamp))).getMinutes();
+                const seconds = (new Date(parseInt(timestamp))).getSeconds();
+                const time = `${hours}:${mins}:${seconds}`;
+
+                return time;
+            }
         }
     });
 </script>
