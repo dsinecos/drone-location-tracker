@@ -329,7 +329,7 @@ describe('MemoryStore', function () {
                 );
                 const duration = (timestamp2 - timestamp1) / 1000;
 
-                const speed = distance / duration;
+                const speed = parseFloat(distance / duration).toFixed(2);
 
                 expect(result).to.deep.equal({
                     id: '1',
