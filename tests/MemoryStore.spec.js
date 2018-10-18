@@ -464,50 +464,30 @@ describe('MemoryStore', function () {
                 expect(result).to.be.null;
             });
         });
-
-        describe.skip('updateSpeedForInactiveDrones', function () {
-            it('Runs every 10 seconds', function () {
-                const clock = sinon.useFakeTimers();
-                const updateInactiveDronesSpy = sinon.spy(PositionMemoryStore, 'updateInactiveDrones');
-
-                clock.tick(10001);
-                // console.log(updateInactiveDronesSpy);
-
-
-                expect(updateInactiveDronesSpy.called).to.be.true;
-
-                clock.restore();
-                updateInactiveDronesSpy.restore();
-            });
-
-            it('Sets speed to null if last location update is more than 10 seconds old', function () {
-
-            });
-
-            it('Emits `drone-updated` event with respective drone-id', function () {
-
-            });
-        });
     });
 
     describe('\n Set speed values when location is updated', function () {
         describe('onLocationUpdate', function () {
             it('Is triggered on event `location-updated`', function () {
                 const spyOnLocationUpdate = sinon.spy(PositionMemoryStore, 'onLocationUpdate');
+                const stub = sinon.stub(PositionMemoryStore, 'flagStationaryDrones');
 
                 PositionMemoryStore.emit('location-updated', '1');
 
                 expect(spyOnLocationUpdate.calledOnceWithExactly('1')).to.be.true;
                 spyOnLocationUpdate.restore();
+                stub.restore();
             });
 
             it('Triggers calculateSpeed with the respective droneId', function () {
                 const spyCalculateSpeed = sinon.spy(PositionMemoryStore, 'calculateSpeed');
+                const stub = sinon.stub(PositionMemoryStore, 'flagStationaryDrones');
 
                 PositionMemoryStore.emit('location-updated', '1');
                 expect(spyCalculateSpeed.calledOnceWithExactly('1')).to.be.true;
 
                 spyCalculateSpeed.restore();
+                stub.restore();
             });
 
             it('Triggers setSpeedById with the respective droneId', function () {
@@ -544,30 +524,100 @@ describe('MemoryStore', function () {
                 };
 
                 const spySetSpeedById = sinon.spy(PositionMemoryStore, 'setSpeedById');
+                const stub = sinon.stub(PositionMemoryStore, 'flagStationaryDrones');
 
                 PositionMemoryStore.emit('location-updated', '1');
                 expect(spySetSpeedById.calledOnce).to.be.true;
 
                 spySetSpeedById.restore();
+                stub.restore();
             });
         });
     });
 
-    describe.skip('\n Flag stationary Drones', function () {
-        it('Runs every 10 seconds', function () {
+    describe('\n Flag stationary Drones', function () {
+        beforeEach(function () {
+            const latitude = '84.9274';
+            const longitude = '108.7509';
+            const timestamp = '819150859500'; //819150870000
 
+            PositionMemoryStore.positionData = {
+                '1': [
+                    {
+                        latitude,
+                        longitude,
+                        timestamp
+                    }
+                ],
+                '2': [
+                    {
+                        latitude,
+                        longitude,
+                        timestamp
+                    }
+                ]
+            };
+
+            PositionMemoryStore.flagDrone = {
+                '1': false,
+                '2': true
+            };
         });
 
-        it('flagDrone set to true if drone has covered less than 1m in last 10 seconds', function () {
-
+        afterEach(function () {
+            PositionMemoryStore.positionData = {};
+            PositionMemoryStore.flagDrone = {};
         });
 
-        it('flagDrone set to false if drone has covered less than 1m in last 10 seconds', function () {
+        it('Is triggered on event `location-updated`', function () {
+            const spyFlagStationaryDrone = sinon.spy(PositionMemoryStore, 'flagStationaryDrones');
+            const position = {
+                latitude: '84.927401',
+                longitude: '108.750901',
+                timestamp: '819150870000'
+            };
+            PositionMemoryStore.emit('location-updated', '1', position);
 
+            expect(spyFlagStationaryDrone.calledOnceWithExactly('1', position)).to.be.true;
+            spyFlagStationaryDrone.restore();
+        });
+
+        it('flagDrone set to true if drone has covered less than 1m in last 10-11 seconds', function () {
+            const position = {
+                latitude: '84.927401',
+                longitude: '108.750901',
+                timestamp: '819150870000'
+            };
+            PositionMemoryStore.emit('location-updated', '1', position);
+
+            const flag = PositionMemoryStore.flagDrone['1'];
+            expect(flag).to.be.true;
+        });
+
+        it('flagDrone set to false if drone has covered more than 1m in last 10-11 seconds', function () {
+            const position = {
+                latitude: '84.92741000000001',
+                longitude: '108.75091',
+                timestamp: '819150870000'
+            };
+            PositionMemoryStore.emit('location-updated', '2', position);
+
+            const flag = PositionMemoryStore.flagDrone['2'];
+            expect(flag).to.be.false;
         });
 
         it('Emits `drone-updated` event with respective drone-id', function () {
+            const eventSpy = sinon.spy();
+            PositionMemoryStore.on('drone-updated', eventSpy);
 
+            const position = {
+                latitude: '84.927401',
+                longitude: '108.750901',
+                timestamp: '819150870000'
+            };
+            PositionMemoryStore.emit('location-updated', '1', position);
+
+            expect(eventSpy.called).to.be.false;
         });
     });
 
