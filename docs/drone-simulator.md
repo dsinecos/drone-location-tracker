@@ -15,9 +15,9 @@ The Drone simulator uses the following functions
     The `getPosition` promise resolves to the following position object
     ```
     {
-        latitude: ''
-        longitude: ''
-        timestamp: ''
+        latitude: '' // In Decimal Degrees
+        longitude: '' // In Decimal Degrees
+        timestamp: '' // Unix timestamp
     }
     ```
 
@@ -26,3 +26,5 @@ The Drone simulator uses the following functions
     The `timestamp` property returns the Unix timestamp as a Number
 
     The `getPosition` function takes `droneId` as a parameter and on subsequent calls returns the position for the drone along a tracjectory based on the drone's last position.
+
+4. `watchPosition` - This function simulates the behavior of the `watchPosition` method of the GeoLocation API in HTML5. It takes a callback as a parameter. It then invokes the callback with a new position in a random interval of 1 to 4 seconds. 
