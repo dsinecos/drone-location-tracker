@@ -4,7 +4,7 @@ The Drone Simulator is used to create a fleet of drones which send randomized lo
 The Drone simulator uses the following functions
 
 1. `createFleet` - The `createFleet` function uses a set of environment variables to setup a fleet of drones. 
-    1. It uses the `FLEET_SIZE` environment variable to start a fleet of drones.
+    1. It uses the `FLEET_SIZE` environment variable to start a fleet of drones. It has a default value of 15.
     2. For each drone it creates a random life period between 10 and 30 seconds. At the end of this period the simulated drone shuts down and sends no further location updates
     3. It uses the `UPDATE_INTERVAL` environment variable to decide the interval at which the drones would send updates. It is set at a default value of 1second
 
@@ -15,9 +15,9 @@ The Drone simulator uses the following functions
     The `getPosition` promise resolves to the following position object
     ```
     {
-        latitude: ''
-        longitude: ''
-        timestamp: ''
+        latitude: '' // In Decimal Degrees
+        longitude: '' // In Decimal Degrees
+        timestamp: '' // Unix timestamp
     }
     ```
 
@@ -26,3 +26,5 @@ The Drone simulator uses the following functions
     The `timestamp` property returns the Unix timestamp as a Number
 
     The `getPosition` function takes `droneId` as a parameter and on subsequent calls returns the position for the drone along a tracjectory based on the drone's last position.
+
+4. `watchPosition` - This function simulates the behavior of the `watchPosition` method of the GeoLocation API in HTML5. It takes a callback as a parameter. It then invokes the callback with a new position in a random interval of 1 to 4 seconds. 

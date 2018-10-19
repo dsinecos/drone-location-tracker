@@ -1,6 +1,6 @@
 const chai = require('chai');
 const sinon = require('sinon');
-const PositionMemoryStore = require('../lib/backend/MemoryStore');
+const PositionMemoryStore = require('../lib/backend/memoryStore');
 const faker = require('faker');
 const geolib = require('geolib');
 

@@ -228,4 +228,3 @@ This method opens a UDP socket and sends location data to the backend
 | Param | Type | Description |
 | --- | --- | --- |
 | message | <code>Buffer</code> | Location data appended with DroneID |
-

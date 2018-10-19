@@ -1,7 +1,7 @@
-const FLEET_SIZE = process.env.FLEET_SIZE;
+const FLEET_SIZE = process.env.FLEET_SIZE || 15;
 const UPDATE_INTERVAL = process.env.UPDATE_INTERVAL || 1000;
-const UDP_PORT = process.env.UDP_PORT;
-const UDP_HOST = '127.0.0.1';
+const UDP_PORT = process.env.UDP_PORT || 6000;
+const UDP_HOST = process.env.UDP_HOST || '127.0.0.1';
 
 const LocationTracker = require('../../lib/location-tracker/index');
 
@@ -16,8 +16,8 @@ for (let id = 1; id <= FLEET_SIZE; id++) {
     
     DroneTracker.startTracking();
 
-    const maxLifeDuration = 30000; // Seconds
-    const minLifeDuration = 10000; // Seconds
+    const maxLifeDuration = 30000; // In milliseconds
+    const minLifeDuration = 10000; // In milliseconds
     const lifeDuration = (Math.random() * (maxLifeDuration - minLifeDuration)) + minLifeDuration;
 
     setTimeout(() => {
