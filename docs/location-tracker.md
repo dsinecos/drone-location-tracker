@@ -1,6 +1,27 @@
-# Location Tracker on Drone
+## Table of Contents
 
-## Operating Environment constraints
+- [LocationTracker](#locationtracker)
+    - [Operating environment constraints](#operating-environment-constraints)
+    - [Key decisions to be made based on the constraints and requirements](#key-decisions-to-be-made-based-on-the-constraints-and-requirements)
+    - [Assumptions](#assumptions)
+    - [Code Design and Implementation](#code-design-and-implementation)
+- [API Documentation](#api-documentation)
+    - [LocationTracker](#locationtracker)
+        - [new LocationTracker(id, updateInterval, mode, UDP_PORT, UDP_HOST)](#new-locationtrackerid-updateinterval-mode-udp_port-udp_host)
+        - [locationTracker.startTracking()](#locationtrackerstarttracking)
+        - [locationTracker.pauseTracking()](#locationtrackerpausetracking)
+        - [locationTracker.getPosition() ⇒ <code>Promise</code> ℗](#locationtrackergetposition--codepromisecode-)
+        - [locationTracker.isOnline() ⇒ <code>Promise</code> ℗](#locationtrackerisonline--codepromisecode-)
+        - [locationTracker.canSendLocation() ⇒ <code>Boolean</code> ℗](#locationtrackercansendlocation--codebooleancode-)
+        - [locationTracker.formatPosition(position) ⇒ <code>Object</code> ℗](#locationtrackerformatpositionposition--codeobjectcode-)
+        - [locationTracker.compressPosition(position) ⇒ <code>String</code> ℗](#locationtrackercompresspositionposition--codestringcode-)
+        - [locationTracker.sendLocation() ℗](#locationtrackersendlocation-)
+        - [locationTracker.sendMessage(message) ℗](#locationtrackersendmessagemessage-)
+
+
+# LocationTracker
+
+## Operating environment constraints
 
 1. Battery power
 2. Connectivity
@@ -49,7 +70,7 @@ Based on the operating environment constraints and requirements the selection of
 
 6. Processing of location data on the drone - Considering the other functionality of the drone (for instance sending real-time video) will affect the processing power that can be used on the drone to ensure that it does not interfere with the main functionality of the drone
 
-## Decisions
+## Assumptions
 
 | Component | Remarks |
 | -- | -- |
