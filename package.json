@@ -4,7 +4,7 @@
   "description": "location tracking system for a fleet of drones",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --watch ./tests",
+    "test": "DEBUG=null ./node_modules/mocha/bin/mocha --watch ./tests",
     "simulation": "FLEET_SIZE=15 node ./tests/drone-simulator/createFleet.js"
   },
   "repository": {
