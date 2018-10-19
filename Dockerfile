@@ -7,4 +7,4 @@ RUN yarn install
 
 COPY ./ ./
 
-CMD ["node", "index.js"]
+CMD ["node", "./lib/backend/index.js"]
