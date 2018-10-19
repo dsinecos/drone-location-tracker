@@ -1,3 +1,5 @@
+## Table of contents
+
 - [Setup](#setup)
     - [Build and run Application](#build-and-run-application)
     - [Run Drone simulator](#run-drone-simulator)
