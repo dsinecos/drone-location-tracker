@@ -63,7 +63,7 @@ Based on the operating environment constraints and requirements the selection of
 
 The core responsibilities of the location tracker code on the drone are
 
-![responsibility-drone-location-tracker](./assets/responsibility-drone-location-tracker.svg)
+![responsibility-drone-location-tracker](./assets/responsibility-drone-location-tracker.jpg)
 
 # API Documentation
 

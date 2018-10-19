@@ -34,7 +34,7 @@ Using the above requirements and guidelines I setup the major components of the 
 
 ## Drone Tracking System - Major components
 
-![drone-tracking-system-components](./assets/drone-tracking-system-components.svg)
+![drone-tracking-system-components](./assets/drone-tracking-system-components.jpg)
 
 There are three main components as provided in the diagram
 

@@ -16,7 +16,7 @@
 - Process - Processing position data to get speeds for the respective drones and flagging stationary drones
 - Serve - API to serve real-time position (& speed) data to front-end
 
-![backend-components](/docs/assets/backend-components.svg)
+![backend-components](/docs/assets/backend-components.jpg)
 
 **Basis for the above Design**
 
@@ -32,7 +32,7 @@
 
 ### Code Design and Implementation
 
-![memory-store](/docs/assets/memory-store.svg)
+![memory-store](/docs/assets/memory-store.jpg)
 
 1. The MemoryStore is divided into three key responsibilities
     1. Store position data
