@@ -23,6 +23,8 @@
 
 ## Operating environment constraints
 
+The design of the location tracker will have to account for the following constraints arising from the operating environment while providing real-time location with as little data as possible
+
 1. Battery power
 2. Connectivity
    - Bandwidth
@@ -30,8 +32,6 @@
    - Quality of connectivity 
 3. Processing power
    - Interference with Drone’s other processes
-
-The design of the location tracker will have to account for the above constraints arising from the operating environment while satisfying the requirements of providing real-time location with as little data as possible to communicate with the backend
 
 ## Key decisions to be made based on the constraints and requirements
 Based on the operating environment constraints and requirements the selection of the following components will be crucial
@@ -79,6 +79,19 @@ Based on the operating environment constraints and requirements the selection of
 | Frequency of update | - Variable mode <br> - Update Interval - 1s |
 | Format of data | `${identifier};${latitude},${longitude};${timestamp}` |
 | Resolution of location data | 6 Decimal degrees (Precision of ~ 100mm ) |
+
+Rationale for selecting the UDP protocol for communication between the drone and the backend
+
+1. Since the objective of the system is to display real-time data, the speed of data transfer has been prioritized over the reliability
+   - UDP is a connectionless protocol while TCP which is a connection based protocol. TCP requires a three way handshake to establish a connection before sending packets. 
+   - TCP provides error checking which UDP does not
+
+   For the above reasons UDP provides a better speed of communication than TCP
+
+2. Another requirement from the system is to communicate by transmitting the minimal amount of data
+   - On the Transport Layer - Size of the TCP header is 20 bytes while the size of the UDP header is 8 bytes
+   - TCP protocol sends acknowledgements for each packet of data received. This also increases the consumption of network bandwidth.
+   - Application level protocols such as HTTP have not been used because data encapsulation from these protocols would further increase the quantum of data sent in each request
 
 ## Code Design and Implementation
 
