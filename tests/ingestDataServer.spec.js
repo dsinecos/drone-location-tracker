@@ -1,7 +1,7 @@
 const chai = require('chai');
 const sinon = require('sinon');
 const UdpServer = require('../lib/backend/ingestDataServer');
-const PositionMemoryStore = require('../lib/backend/MemoryStore');
+const PositionMemoryStore = require('../lib/backend/memoryStore');
 const faker = require('faker');
 
 const expect = chai.expect;
