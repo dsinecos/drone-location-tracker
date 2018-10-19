@@ -1,4 +1,27 @@
-# Objective
+## Table of Contents
+
+- [Backend](#backend)
+    - [Requirements](#requirements)
+    - [Design](#design)
+    - [MemoryStore - Code Design and Implementation](#memorystore---code-design-and-implementation)
+- [API Documentation](#api-documentation)
+    - [MemoryStore](#memorystore)
+        - [new MemoryStore()](#new-memorystore)
+        - [memoryStore.getPositionById(droneID) ⇒ <code>Array</code> \| <code>null</code> ℗](#memorystoregetpositionbyiddroneid--codearraycode--codenullcode-)
+        - [memoryStore.getPosition() ⇒ <code>Object</code> \| <code>null</code> ℗](#memorystoregetposition--codeobjectcode--codenullcode-)
+        - [memoryStore.setPositionById(droneID, position) ℗](#memorystoresetpositionbyiddroneid-position-)
+        - [memoryStore.validatePosition() ℗](#memorystorevalidateposition-)
+        - [memoryStore.parsePosition(message) ⇒ <code>Object</code> ℗](#memorystoreparsepositionmessage--codeobjectcode-)
+        - [memoryStore.setPositionFromDroneMessage(message)](#memorystoresetpositionfromdronemessagemessage)
+        - [memoryStore.calculateSpeed(droneId) ⇒ <code>Object</code> ℗](#memorystorecalculatespeeddroneid--codeobjectcode-)
+        - [memoryStore.setSpeedById(droneId, speed) ℗](#memorystoresetspeedbyiddroneid-speed-)
+        - [memoryStore.getSpeedById(droneId) ℗](#memorystoregetspeedbyiddroneid-)
+        - [memoryStore.getSpeed() ℗](#memorystoregetspeed-)
+        - [memoryStore.onLocationUpdate(droneId) ℗](#memorystoreonlocationupdatedroneid-)
+        - [memoryStore.getDataForDashboard()](#memorystoregetdatafordashboard)
+        - [memoryStore.getDataForDashboardById(droneId)](#memorystoregetdatafordashboardbyiddroneid)
+
+# Backend
 
 ## Requirements
 
@@ -28,9 +51,7 @@
 
 4. To serve real time updates to the dashboard `socket.io` module has been used which allows for real-time bidirectional communication 
 
-## MemoryStore
-
-### Code Design and Implementation
+## MemoryStore - Code Design and Implementation
 
 ![memory-store](/docs/assets/memory-store.jpg)
 
@@ -44,7 +65,7 @@
     2. The data from the MemoryStore can be formatted to serve other endpoints (in addition to the Dashboard). For this additional interfaces can be added by subscribing to the event `drone-updated`
 
 
-## API Documentation
+# API Documentation
 
 <a name="MemoryStore"></a>
 
