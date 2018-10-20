@@ -51,14 +51,17 @@
 
 | Tool | Objective |
 | -- | -- |
-| Git | Version control |
+| Git (CLI) <br> GitKraken (GUI) | Version control |
 | Yarn | Dependency management |
 | Docker | Containerization |
-| Testing | - |
+| ESLint | Code Linting |
+| JSDoc | Documentation |
+| | |
+| Testing |  |
 | Mocha | Test runner |
 | Chai | Assertion library |
 | Sinon | For mocking and stubbing |
-| ESLint | Code Linting |
+| | |
 | Nodemon | Auto-restarting app |
 | Debug | Logging during development |
 | Dotenv | Setup environment variables|

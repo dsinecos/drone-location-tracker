@@ -6,9 +6,9 @@
 - [API Documentation](#api-documentation)
     - [MemoryStore](#memorystore)
         - [new MemoryStore()](#new-memorystore)
-        - [memoryStore.setPositionFromDroneMessage(message)](#memorystoresetpositionfromdronemessagemessage)
-        - [memoryStore.getDataForDashboard()](#memorystoregetdatafordashboard)
-        - [memoryStore.getDataForDashboardById(droneId)](#memorystoregetdatafordashboardbyiddroneid)
+        - [memoryStore.setPositionFromDroneMessage(message) ⇒ <code>Object</code>](#memorystoresetpositionfromdronemessagemessage--codeobjectcode)
+        - [memoryStore.getDataForDashboard() ⇒ <code>Object</code>](#memorystoregetdatafordashboard--codeobjectcode)
+        - [memoryStore.getDataForDashboardById(droneId) ⇒ <code>Object</code>](#memorystoregetdatafordashboardbyiddroneid--codeobjectcode)
         - [memoryStore.getPositionById(droneID) ⇒ <code>Array</code> \| <code>null</code> ℗](#memorystoregetpositionbyiddroneid--codearraycode--codenullcode-)
         - [memoryStore.getPosition() ⇒ <code>Object</code> \| <code>null</code> ℗](#memorystoregetposition--codeobjectcode--codenullcode-)
         - [memoryStore.setPositionById(droneID, position) ℗](#memorystoresetpositionbyiddroneid-position-)
@@ -16,11 +16,11 @@
         - [memoryStore.parsePosition(message) ⇒ <code>Object</code> ℗](#memorystoreparsepositionmessage--codeobjectcode-)
         - [memoryStore.calculateSpeed(droneId) ⇒ <code>Object</code> ℗](#memorystorecalculatespeeddroneid--codeobjectcode-)
         - [memoryStore.setSpeedById(droneId, speed) ℗](#memorystoresetspeedbyiddroneid-speed-)
-        - [memoryStore.getSpeedById(droneId) ℗](#memorystoregetspeedbyiddroneid-)
-        - [memoryStore.getSpeed() ℗](#memorystoregetspeed-)
+        - [memoryStore.getSpeedById(droneId) ⇒ <code>Object</code> \| <code>null</code> ℗](#memorystoregetspeedbyiddroneid--codeobjectcode--codenullcode-)
+        - [memoryStore.getSpeed() ⇒ <code>Object</code> \| <code>null</code> ℗](#memorystoregetspeed--codeobjectcode--codenullcode-)
         - [memoryStore.onLocationUpdate(droneId) ℗](#memorystoreonlocationupdatedroneid-)
         - [memoryStore.flagStationaryDrones(droneId) ℗](#memorystoreflagstationarydronesdroneid-)
-        - [memoryStore.findPositionInInterval(droneId, timestamp, start, range) ℗](#memorystorefindpositioninintervaldroneid-timestamp-start-range-)
+        - [memoryStore.findPositionInInterval(droneId, timestamp, start, range) ⇒ <code>Object</code> ℗](#memorystorefindpositioninintervaldroneid-timestamp-start-range--codeobjectcode-)
         - [memoryStore.setDroneFlag(droneId) ℗](#memorystoresetdroneflagdroneid-)
         - [memoryStore.unsetDroneFlag(droneId) ℗](#memorystoreunsetdroneflagdroneid-)
 # Backend
@@ -78,9 +78,9 @@ The MemoryStore is an in-memory storage
 
 * [MemoryStore](#MemoryStore)
     * [new MemoryStore()](#new_MemoryStore_new)
-    * [.setPositionFromDroneMessage(message)](#MemoryStore+setPositionFromDroneMessage)
-    * [.getDataForDashboard()](#MemoryStore+getDataForDashboard)
-    * [.getDataForDashboardById(droneId)](#MemoryStore+getDataForDashboardById)
+    * [.setPositionFromDroneMessage(message)](#MemoryStore+setPositionFromDroneMessage) ⇒ <code>Object</code>
+    * [.getDataForDashboard()](#MemoryStore+getDataForDashboard) ⇒ <code>Object</code>
+    * [.getDataForDashboardById(droneId)](#MemoryStore+getDataForDashboardById) ⇒ <code>Object</code>
     * [.getPositionById(droneID)](#MemoryStore+getPositionById) ⇒ <code>Array</code> \| <code>null</code> ℗
     * [.getPosition()](#MemoryStore+getPosition) ⇒ <code>Object</code> \| <code>null</code> ℗
     * [.setPositionById(droneID, position)](#MemoryStore+setPositionById) ℗
@@ -88,11 +88,11 @@ The MemoryStore is an in-memory storage
     * [.parsePosition(message)](#MemoryStore+parsePosition) ⇒ <code>Object</code> ℗
     * [.calculateSpeed(droneId)](#MemoryStore+calculateSpeed) ⇒ <code>Object</code> ℗
     * [.setSpeedById(droneId, speed)](#MemoryStore+setSpeedById) ℗
-    * [.getSpeedById(droneId)](#MemoryStore+getSpeedById) ℗
-    * [.getSpeed()](#MemoryStore+getSpeed) ℗
+    * [.getSpeedById(droneId)](#MemoryStore+getSpeedById) ⇒ <code>Object</code> \| <code>null</code> ℗
+    * [.getSpeed()](#MemoryStore+getSpeed) ⇒ <code>Object</code> \| <code>null</code> ℗
     * [.onLocationUpdate(droneId)](#MemoryStore+onLocationUpdate) ℗
     * [.flagStationaryDrones(droneId)](#MemoryStore+flagStationaryDrones) ℗
-    * [.findPositionInInterval(droneId, timestamp, start, range)](#MemoryStore+findPositionInInterval) ℗
+    * [.findPositionInInterval(droneId, timestamp, start, range)](#MemoryStore+findPositionInInterval) ⇒ <code>Object</code> ℗
     * [.setDroneFlag(droneId)](#MemoryStore+setDroneFlag) ℗
     * [.unsetDroneFlag(droneId)](#MemoryStore+unsetDroneFlag) ℗
 
@@ -103,10 +103,11 @@ Create a MemoryStore
 
 <a name="MemoryStore+setPositionFromDroneMessage"></a>
 
-### memoryStore.setPositionFromDroneMessage(message)
+### memoryStore.setPositionFromDroneMessage(message) ⇒ <code>Object</code>
 This method takes a message from the UDP server and stores the position for that drone
 
 **Kind**: instance method of [<code>MemoryStore</code>](#MemoryStore)  
+**Returns**: <code>Object</code> - Position object (with droneId)  
 **Access**: public  
 
 | Param | Type | Description |
@@ -115,19 +116,21 @@ This method takes a message from the UDP server and stores the position for that
 
 <a name="MemoryStore+getDataForDashboard"></a>
 
-### memoryStore.getDataForDashboard()
+### memoryStore.getDataForDashboard() ⇒ <code>Object</code>
 This method returns speed data for all the drones along with a flag to specify if they
 should be highlighted or not on the dashboard
 
 **Kind**: instance method of [<code>MemoryStore</code>](#MemoryStore)  
+**Returns**: <code>Object</code> - Speed data for all the drones and their respective highlight flags  
 **Access**: public  
 <a name="MemoryStore+getDataForDashboardById"></a>
 
-### memoryStore.getDataForDashboardById(droneId)
+### memoryStore.getDataForDashboardById(droneId) ⇒ <code>Object</code>
 This method returns the speed data and highlight flag for a specific drone given by the
 droneId
 
 **Kind**: instance method of [<code>MemoryStore</code>](#MemoryStore)  
+**Returns**: <code>Object</code> - Speed data for a drone and its highlight flag  
 **Access**: public  
 
 | Param | Type |
@@ -173,6 +176,7 @@ This method appends the position for the droneId in the MemoryStore
 <a name="MemoryStore+validatePosition"></a>
 
 ### memoryStore.validatePosition() ℗
+To be implemented in the next version.
 This method is used to validate the position data - Latitude and Longitude
 
 **Kind**: instance method of [<code>MemoryStore</code>](#MemoryStore)  
@@ -219,10 +223,11 @@ This method stores the speed for a drone in MemoryStore
 
 <a name="MemoryStore+getSpeedById"></a>
 
-### memoryStore.getSpeedById(droneId) ℗
+### memoryStore.getSpeedById(droneId) ⇒ <code>Object</code> \| <code>null</code> ℗
 This method is used to retrieve the speed for a drone
 
 **Kind**: instance method of [<code>MemoryStore</code>](#MemoryStore)  
+**Returns**: <code>Object</code> \| <code>null</code> - Speed data for a droneId  
 **Access**: private  
 
 | Param | Type |
@@ -231,10 +236,11 @@ This method is used to retrieve the speed for a drone
 
 <a name="MemoryStore+getSpeed"></a>
 
-### memoryStore.getSpeed() ℗
+### memoryStore.getSpeed() ⇒ <code>Object</code> \| <code>null</code> ℗
 This method is used to retrieve the speed data for all the drones
 
 **Kind**: instance method of [<code>MemoryStore</code>](#MemoryStore)  
+**Returns**: <code>Object</code> \| <code>null</code> - Speed data for all the drones  
 **Access**: private  
 <a name="MemoryStore+onLocationUpdate"></a>
 
@@ -265,11 +271,12 @@ is highlighted the function triggers `drone-updated` event.
 
 <a name="MemoryStore+findPositionInInterval"></a>
 
-### memoryStore.findPositionInInterval(droneId, timestamp, start, range) ℗
+### memoryStore.findPositionInInterval(droneId, timestamp, start, range) ⇒ <code>Object</code> ℗
 This method checks the position data for a drone and returns a position between an interval
 The interval is defined between (timestamp - start) and (timestamp - start- range)
 
 **Kind**: instance method of [<code>MemoryStore</code>](#MemoryStore)  
+**Returns**: <code>Object</code> - Position data  
 **Access**: private  
 
 | Param | Type | Description |

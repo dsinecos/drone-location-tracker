@@ -1,6 +1,6 @@
 ## Table of Contents
 
-- [LocationTracker](#locationtracker)
+- [Location-Tracker](#location-tracker)
     - [Operating environment constraints](#operating-environment-constraints)
     - [Key decisions to be made based on the constraints and requirements](#key-decisions-to-be-made-based-on-the-constraints-and-requirements)
     - [Assumptions](#assumptions)
@@ -19,7 +19,7 @@
         - [locationTracker.sendMessage(message) ℗](#locationtrackersendmessagemessage-)
 
 
-# LocationTracker
+# Location-Tracker
 
 ## Operating environment constraints
 

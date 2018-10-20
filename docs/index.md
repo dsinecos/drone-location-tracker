@@ -33,13 +33,16 @@ Considering this is a mock assignment, I have used the information provided in t
 | Assumptions | Reference from problem statement used as basis |
 | -- | -- |
 | Number of users | Single user (A company) |
-| Number of Drones | **XX** |
+| Number of Drones* |  |
 | Communication network used by drones | Cellular network <br> - Drones flying around the country |
 | Prioritize speed of communication over reliability | - Tracks the location of drones in real-time <br> - Only displays the last location of the drones |
 | Use minimal data for communicating position | Use as little data as possible to communicate position from the drones |
-| Security* |  |
+| Security** |  |
+| | |
 
-*For this assignment security risks have been identified and [documented](/docs/next-steps.md). The mitigation for the vulnerabilities has not been implemented.
+*To be established after load testing the current system. Thereafter optimizations can be made to achieve the required scale
+
+**For this assignment security risks have been identified and [documented](/docs/next-steps.md). The mitigation for the vulnerabilities has not been implemented.
 
 Using the above requirements and guidelines I setup the major components of the drone-location-tracker and their responsibilities
 
