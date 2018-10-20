@@ -39,7 +39,7 @@ Considering this is a mock assignment, I have used the information provided in t
 | Use minimal data for communicating position | Use as little data as possible to communicate position from the drones |
 | Security* |  |
 
-*For this assignment security risks have been identified and documented. The mitigation for the vulnerabilities has not been implemented.
+*For this assignment security risks have been identified and [documented](/docs/next-steps.md). The mitigation for the vulnerabilities has not been implemented.
 
 Using the above requirements and guidelines I setup the major components of the drone-location-tracker and their responsibilities
 
